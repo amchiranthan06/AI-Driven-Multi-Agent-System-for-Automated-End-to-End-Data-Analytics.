@@ -5,6 +5,11 @@ set "ROOT=%~dp0"
 set "OLLAMA_EXE=%USERPROFILE%\AppData\Local\Programs\Ollama\ollama.exe"
 set "OLLAMA_HOST=127.0.0.1:11435"
 set "MAS_OLLAMA_BASE_URL=http://127.0.0.1:11435"
+if not defined MAS_OLLAMA_MODELS_DIR if exist "%ROOT%backend\.env" (
+  for /f "usebackq tokens=1,* delims==" %%A in ("%ROOT%backend\.env") do (
+    if /I "%%A"=="MAS_OLLAMA_MODELS_DIR" set "MAS_OLLAMA_MODELS_DIR=%%B"
+  )
+)
 if defined MAS_OLLAMA_MODELS_DIR set "OLLAMA_MODELS=%MAS_OLLAMA_MODELS_DIR%"
 set "BACKEND_URL=http://127.0.0.1:8000"
 set "FRONTEND_URL=http://localhost:5173"
@@ -66,7 +71,7 @@ echo [2/3] Checking FastAPI backend...
 call :wait_for_url "%BACKEND_URL%/health" 2
 if not errorlevel 1 goto frontend
 echo Starting FastAPI backend...
-start "MAS Backend" cmd /k "cd /d ""%ROOT%backend"" ^&^& ""%PYTHON_EXE%"" -m uvicorn app.main:app --host 127.0.0.1 --port 8000"
+start "MAS Backend" /D "%ROOT%backend" cmd.exe /k ""%PYTHON_EXE%" -m uvicorn app.main:app --host 127.0.0.1 --port 8000"
 call :wait_for_url "%BACKEND_URL%/health" 45
 if errorlevel 1 (
   echo [ERROR] FastAPI did not become ready on port 8000.
@@ -80,7 +85,7 @@ echo [3/3] Checking React frontend...
 call :wait_for_url "%FRONTEND_URL%/" 2
 if not errorlevel 1 goto ready
 echo Starting React frontend...
-start "MAS Frontend" cmd /k "cd /d ""%ROOT%frontend"" ^&^& call npm.cmd run dev -- --host 0.0.0.0 --port 5173 --strictPort"
+start "MAS Frontend" /D "%ROOT%frontend" cmd.exe /k "call npm.cmd run dev -- --host 0.0.0.0 --port 5173 --strictPort"
 call :wait_for_url "%FRONTEND_URL%/" 45
 if errorlevel 1 (
   echo [ERROR] Vite did not become ready on port 5173.

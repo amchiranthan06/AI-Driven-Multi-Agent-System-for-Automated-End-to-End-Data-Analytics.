@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     app_name: str = "AI Driven MAS Analytics"
     ollama_base_url: str = "http://localhost:11434"
     ollama_model: str = "qwen3:4b"
+    ollama_models_dir: str | None = None
     ollama_num_ctx: int = 4096
     ollama_num_predict: int = 2048
     max_prompt_chars: int = 12000

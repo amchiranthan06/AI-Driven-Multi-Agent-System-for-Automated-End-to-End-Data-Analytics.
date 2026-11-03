@@ -1,0 +1,36 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Backend local config and outputs
+backend/.env
+backend/app/generated_charts/
+backend/app/datasets/
+
+# Frontend build/runtime
+frontend/node_modules/
+frontend/dist/
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+tmp/
+output/
+
+# GitHub/IDE local files
+.idea/
+.vscode/

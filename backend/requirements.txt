@@ -1,0 +1,10 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+httpx==0.28.1
+pydantic==2.10.4
+pydantic-settings==2.7.1
+python-multipart==0.0.20
+langgraph==0.2.60
+pandas==3.0.1
+matplotlib==3.10.9
+scikit-learn==1.7.0
